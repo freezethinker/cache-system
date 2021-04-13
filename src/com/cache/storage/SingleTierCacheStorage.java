@@ -11,12 +11,12 @@ import java.util.Map;
 /**
  * Created by karan.uppal on 13/04/21
  **/
-public class SingleTierStorage<K, V> implements Storage<K, V> {
+public class SingleTierCacheStorage<K, V> implements CacheStorage<K, V> {
 
     private int capacity;
     private Map<K, V> data;
 
-    public SingleTierStorage(int capacity) {
+    public SingleTierCacheStorage(int capacity) {
         this.capacity = capacity;
         this.data = new HashMap<>();
     }

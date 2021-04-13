@@ -1,15 +1,15 @@
 package com.cache;
 
 import com.cache.entity.Cache;
-import com.cache.eviction_policy.FIFOEvictionPolicy;
-import com.cache.eviction_policy.LRUEvictionPolicy;
-import com.cache.storage.SingleTierStorage;
+import com.cache.eviction_policy.FIFOCacheEvictionPolicy;
+import com.cache.eviction_policy.LRUCacheEvictionPolicy;
+import com.cache.storage.SingleTierCacheStorage;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Cache fifoCache = new Cache<String, String>(new SingleTierStorage<>(5), new FIFOEvictionPolicy<>());
+        Cache fifoCache = new Cache<String, String>(new SingleTierCacheStorage<>(5), new FIFOCacheEvictionPolicy<>());
         fifoCache.put("Key1", "Value1");
         fifoCache.put("Key2", "Value2");
         fifoCache.put("Key3", "Value3");
@@ -21,7 +21,7 @@ public class Main {
         fifoCache.put("Key7", "Value7"); // Key2 will be removed to put Key7
         System.out.println("FIFO Cache Keys: " + fifoCache.getAll());
 
-        Cache lruCache = new Cache<String, String>(new SingleTierStorage<>(5), new LRUEvictionPolicy<>());
+        Cache lruCache = new Cache<String, String>(new SingleTierCacheStorage<>(5), new LRUCacheEvictionPolicy<>());
         lruCache.put("Key1", "Value1");
         lruCache.put("Key2", "Value2");
         lruCache.put("Key3", "Value3");

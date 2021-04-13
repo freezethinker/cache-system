@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by karan.uppal on 13/04/21
  **/
-public interface Storage<K, V> {
+public interface CacheStorage<K, V> {
 
     void add(K k, V v) throws StorageOverflowException;
 

@@ -6,11 +6,11 @@ import java.util.Queue;
 /**
  * Created by karan.uppal on 13/04/21
  **/
-public class LRUEvictionPolicy<K> implements EvictionPolicy<K> {
+public class LRUCacheEvictionPolicy<K> implements CacheEvictionPolicy<K> {
 
     private Queue<K> lruKeys;
 
-    public LRUEvictionPolicy() {
+    public LRUCacheEvictionPolicy() {
         this.lruKeys = new LinkedList<>();
     }
 

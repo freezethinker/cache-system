@@ -1,9 +1,9 @@
 package com.cache.entity;
 
-import com.cache.eviction_policy.EvictionPolicy;
+import com.cache.eviction_policy.CacheEvictionPolicy;
 import com.cache.exception.MissingException;
 import com.cache.exception.StorageOverflowException;
-import com.cache.storage.Storage;
+import com.cache.storage.CacheStorage;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -16,18 +16,18 @@ public class Cache<K, V> {
 
     private final Logger LOGGER = Logger.getLogger(this.getClass().getName());
 
-    private Storage<K, V> storage;
-    private EvictionPolicy<K> evictionPolicy;
+    private CacheStorage<K, V> cacheStorage;
+    private CacheEvictionPolicy<K> cacheEvictionPolicy;
 
-    public Cache(Storage<K, V> storage, EvictionPolicy<K> evictionPolicy) {
-        this.storage = storage;
-        this.evictionPolicy = evictionPolicy;
+    public Cache(CacheStorage<K, V> cacheStorage, CacheEvictionPolicy<K> cacheEvictionPolicy) {
+        this.cacheStorage = cacheStorage;
+        this.cacheEvictionPolicy = cacheEvictionPolicy;
     }
 
     public void get(K k) {
         try {
-            storage.get(k);
-            evictionPolicy.access(k);
+            cacheStorage.get(k);
+            cacheEvictionPolicy.access(k);
         } catch (MissingException e) {
             LOGGER.log(Level.WARNING, e.getMessage());
         }
@@ -35,11 +35,11 @@ public class Cache<K, V> {
 
     public void put(K k, V v) {
         try {
-            storage.add(k, v);
-            evictionPolicy.include(k);
+            cacheStorage.add(k, v);
+            cacheEvictionPolicy.include(k);
         } catch (StorageOverflowException e) {
             LOGGER.log(Level.WARNING, "Cache filled, evicting.");
-            K kToRemove = evictionPolicy.evict();
+            K kToRemove = cacheEvictionPolicy.evict();
             remove(kToRemove);
             put(k, v);
         }
@@ -47,14 +47,14 @@ public class Cache<K, V> {
 
     public void remove(K k) {
         try {
-            storage.remove(k);
+            cacheStorage.remove(k);
         } catch (MissingException e) {
             LOGGER.log(Level.WARNING, e.getMessage());
         }
     }
 
     public List<K> getAll() {
-        List<K> keys = storage.getAll();
+        List<K> keys = cacheStorage.getAll();
         if (keys.size() <= 0) {
             LOGGER.log(Level.WARNING, "Empty cache!");
         }

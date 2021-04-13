@@ -6,11 +6,11 @@ import java.util.Queue;
 /**
  * Created by karan.uppal on 13/04/21
  **/
-public class FIFOEvictionPolicy<K> implements EvictionPolicy<K> {
+public class FIFOCacheEvictionPolicy<K> implements CacheEvictionPolicy<K> {
 
     private Queue<K> fifoKeys;
 
-    public FIFOEvictionPolicy() {
+    public FIFOCacheEvictionPolicy() {
         this.fifoKeys = new LinkedList<>();
     }
 
